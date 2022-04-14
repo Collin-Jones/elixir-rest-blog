@@ -12,6 +12,6 @@ public class Post {
     private String title;
     private String content;
 
-    public Post(Long postId, String s) {
-    }
+
+
 }

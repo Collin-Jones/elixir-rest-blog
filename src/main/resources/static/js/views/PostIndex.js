@@ -11,10 +11,10 @@ export default function PostIndex(props) {
             <main>
                 <div id="post-container">
                     ${props.posts.map(post => `
-                        <h3>${post.title}</h3>
-                        <p>${post.content}</p>
-                        <button type="button" class="btn edit-btn btn primary mb-3" data-id="$(post.id)">Edit</button>
-                        <button type="button" class="btn delete-btn btn primary mb-3" data-id="$(post.id)">Delete</button>`)
+                        <h3 id="title-${post.id}">${post.title}</h3>
+                        <p id="content-${post.id}">${post.content}</p>
+                        <button type="button" class="btn edit-btn primary mb-3" data-id="${post.id}" >Edit</button>
+                        <button type="button" class="btn delete-btn primary mb-3" data-id="${post.id}">Delete</button>`)
                             .join('')}
                 </div>
 
@@ -31,7 +31,7 @@ export default function PostIndex(props) {
                     <textarea class="form-control" id="add-post-content" rows="3" placeholder="Post content"></textarea>
                     <div>
                         <button type="button" class="btn btn-primary nb-3" id="add-post-button">Add Post</button>
-                        <button type="button" class="btn btn-primary nb-3">Save Post</button>
+                        <button type="button" class="btn btn-primary nb-3" id="save-post-button">Save Post</button>
                     </div>
                 </form>
         </div>
@@ -45,16 +45,15 @@ export function PostsEvent() {
     createAddPostListener();
     createEditEventListener()
     createDeleteEventLister()
+    createSaveEventListener()
 }
 
 function createAddPostListener() {
     console.log("Adding add post listener");
     $("#add-post-button").click(function () {
-        const title = $("#add-post-title").val()
-        const content = $("#add-post-content").val()
         const newPost = {
-            title,
-            content
+            title: $("#add-post-title").val(),
+            content: $("#add-post-content").val()
         }
         console.log("Ready to add" + newPost);
         console.log(newPost);
@@ -75,21 +74,48 @@ function createAddPostListener() {
     });
 }
 
+function createSaveEventListener(){
+    $("#save-post-button").click(function () {
+        const id = $(this).data("id")
+        const newPost = {
+            title: $("#add-post-title").val(),
+            content: $("#add-post-content").val()
+        }
+        console.log("Ready to add" + newPost);
+        console.log(newPost);
+
+        const request = {
+            method: "PUT",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(newPost)
+        }
+        fetch(POST_URI + "/" + id, request)
+            .then(res => {
+                console.log(res.status);
+                createView("/posts")
+            }).catch(error => {
+            console.log(error);
+            createView("/posts");
+        });
+    });
+}
+
 function createEditEventListener() {
-    $('#edit-btn').click(function () {
+    $('.edit-btn').click(function () {
         const id = $(this).data("id");
         const oldTitle = $(`#title-${id}`).html();
         const oldContent = $(`#content-${id}`).text();
         $("#add-post-id").val(id)
         $("#add-post-title").val(oldTitle)
         $("#add-post-content").val(oldContent)
+        $(`#save-post-button`).data("id", id)
 
     });
 
 }
 
 function createDeleteEventLister() {
-    $('#delete-btn').click(function () {
+    $('.delete-btn').click(function () {
         const id = $(this).data("id")
         console.log("Deleted " + id)
 

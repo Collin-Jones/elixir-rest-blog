@@ -29,6 +29,7 @@ export default function PostIndex(props) {
                             <textarea class="form-control" id="add-post-content" rows="3"
                                       placeholder="Enter content"></textarea>
                         </div>
+                        <button type="button" class="btn btn-primary nb-3">Add Post</button>
                         <button type="button" class="btn btn-primary nb-3">Save Post</button>
                     </form>
                 </div>
@@ -40,8 +41,8 @@ export default function PostIndex(props) {
 
 export function PostsEvent() {
     createAddPostListener();
-    EditEventListener();
-    DeleteEventLister();
+    createEditEventListener()
+    createDeleteEventLister()
 }
 
 function createAddPostListener() {
@@ -72,15 +73,17 @@ function createAddPostListener() {
     });
 }
 
-function EditEventListener() {
+function createEditEventListener() {
     $('#edit-btn').click(function () {
         const id = $(this).data("id")
         const title = $("#title " + id).text();
         console.log(id, title)
+
     });
+
 }
 
-function DeleteEventLister() {
+function createDeleteEventLister() {
     $('#delete-btn').click(function () {
         const id = $(this).data("id")
         const title = $("#title " + id).text();

@@ -15,26 +15,28 @@ export default function PostIndex(props) {
                         <p>${post.content}</p>
                         <button type="button" class="btn edit-btn btn primary mb-3" data-id="$(post.id)">Edit</button>
                         <button type="button" class="btn delete-btn btn primary mb-3" data-id="$(post.id)">Delete</button>`)
-                    .join('')}
+                            .join('')}
                 </div>
 
-                <div id="add-post-container">
-                    <form id="add-post-form">
-                        <div class="mb-3">
-                            <label for="add-post-title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="add-post-title" placeholder="Enter title">
-                        </div>
-                        <div class="mb-3">
-                            <label for="add-post-content" class="form-label">Content</label>
-                            <textarea class="form-control" id="add-post-content" rows="3"
-                                      placeholder="Enter content"></textarea>
-                        </div>
-                        <button type="button" class="btn btn-primary nb-3">Add Post</button>
+                <h3>Add a Post</h3>
+                <form id="add-post-form">
+                    <div class="mb-3">
+                        <input disabled type="text" class="form-control" id="add-post-id" value="0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="add-post-title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="add-post-title" placeholder="Post title">
+                    </div>
+                    <label for="add-post-content" class="form-label">Content</label>
+                    <textarea class="form-control" id="add-post-content" rows="3" placeholder="Post content"></textarea>
+                    <div>
+                        <button type="button" class="btn btn-primary nb-3" id="add-post-button">Add Post</button>
                         <button type="button" class="btn btn-primary nb-3">Save Post</button>
-                    </form>
-                </div>
-            </main>
+                    </div>
+                </form>
         </div>
+        </main>
+
 
     `;
 }
@@ -75,9 +77,12 @@ function createAddPostListener() {
 
 function createEditEventListener() {
     $('#edit-btn').click(function () {
-        const id = $(this).data("id")
-        const title = $("#title " + id).text();
-        console.log(id, title)
+        const id = $(this).data("id");
+        const oldTitle = $(`#title-${id}`).html();
+        const oldContent = $(`#content-${id}`).text();
+        $("#add-post-id").val(id)
+        $("#add-post-title").val(oldTitle)
+        $("#add-post-content").val(oldContent)
 
     });
 
@@ -86,7 +91,20 @@ function createEditEventListener() {
 function createDeleteEventLister() {
     $('#delete-btn').click(function () {
         const id = $(this).data("id")
-        const title = $("#title " + id).text();
-        console.log(id, title)
+        console.log("Deleted " + id)
+
+        const request = {
+            method: 'DELETE',
+            headers:{
+                'Content-Type': 'application/json',
+            }
+        };
+        fetch(`${POST_URI}/${id}`, request).then(res => {
+            console.log("Deleted Successfully: " + res.status);
+        }).catch(error => {
+            console.log("Delete Error: " + error);
+        }).finally(() => {
+            createView("/post");
+        });
     });
 }

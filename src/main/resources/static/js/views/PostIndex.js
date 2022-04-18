@@ -1,4 +1,4 @@
-import createView from "../createView";
+import createView from "../createView.js";
 
 const POST_URI = "http://localhost:8081/api/posts"
 export default function PostIndex(props) {
@@ -10,10 +10,12 @@ export default function PostIndex(props) {
             </header>
             <main>
                 <div id="post-container">
-                    ${props.posts.map(post => {
-                        return `<h3>${post.title}</h3>
-        <p>${post.content}</p>`;
-                    }).join('')}
+                    ${props.posts.map(post => `
+                        <h3>${post.title}</h3>
+                        <p>${post.content}</p>
+                        <button type="button" class="btn edit-btn btn primary mb-3" data-id="$(post.id)">Edit</button>
+                        <button type="button" class="btn delete-btn btn primary mb-3" data-id="$(post.id)">Delete</button>`)
+                    .join('')}
                 </div>
 
                 <div id="add-post-container">
@@ -23,7 +25,7 @@ export default function PostIndex(props) {
                             <input type="text" class="form-control" id="add-post-title" placeholder="Enter title">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Content</label>
+                            <label for="add-post-content" class="form-label">Content</label>
                             <textarea class="form-control" id="add-post-content" rows="3"
                                       placeholder="Enter content"></textarea>
                         </div>
@@ -36,13 +38,15 @@ export default function PostIndex(props) {
     `;
 }
 
-export default function PostsEvent() {
+export function PostsEvent() {
     createAddPostListener();
+    EditEventListener();
+    DeleteEventLister();
 }
 
-function createAddPostListener(){
+function createAddPostListener() {
     console.log("Adding add post listener");
-    $("#add-post-button").click(function (){
+    $("#add-post-button").click(function () {
         const title = $("#add-post-title").val()
         const content = $("#add-post-content").val()
         const newPost = {
@@ -65,5 +69,21 @@ function createAddPostListener(){
             console.log(error);
             createView("/posts");
         });
+    });
+}
+
+function EditEventListener() {
+    $('#edit-btn').click(function () {
+        const id = $(this).data("id")
+        const title = $("#title " + id).text();
+        console.log(id, title)
+    });
+}
+
+function DeleteEventLister() {
+    $('#delete-btn').click(function () {
+        const id = $(this).data("id")
+        const title = $("#title " + id).text();
+        console.log(id, title)
     });
 }

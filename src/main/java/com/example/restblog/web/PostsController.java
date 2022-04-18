@@ -2,12 +2,13 @@ package com.example.restblog.web;
 
 
 import com.example.restblog.data.Post;
-import lombok.Setter;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/api/posts", headers = "Accept=application/json")
 public class PostsController {

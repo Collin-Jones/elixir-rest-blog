@@ -4,6 +4,8 @@ import com.example.restblog.data.Post;
 import com.example.restblog.data.User;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +46,11 @@ public class UserController {
     private void updateUser(@PathVariable Long userId , @RequestBody User updatedUser){
         updatedUser.setId(userId);
         System.out.println(userId + " " + updatedUser);
+    }
+
+    @PutMapping("{userId}")
+    private void updatePassword(@PathVariable Long userId, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword){
+        System.out.println(userId + " " + oldPassword + " " + newPassword);
     }
 
     @DeleteMapping("{userId}")

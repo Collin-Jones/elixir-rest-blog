@@ -18,8 +18,8 @@ public class UserController {
     private List<User> getAll() {
         ArrayList<User> users = new ArrayList<>();
         users.add(new User(1L, "User1", "email address","password", null, User.Role.ADMIN));
-        users.add(new User(1L, "User2", "email address2","thePassword", null, User.Role.USER));
-        users.add(new User(1L, "User3", "email address3","passwordThe", null, User.Role.ADMIN));
+        users.add(new User(2L, "User2", "email address2","thePassword", null, User.Role.USER));
+        users.add(new User(3L, "User3", "email address3","passwordThe", null, User.Role.ADMIN));
         return users;
     }
 
@@ -48,7 +48,7 @@ public class UserController {
         System.out.println(userId + " " + updatedUser);
     }
 
-    @PutMapping("{userId}")
+    @PutMapping("{userId}/updatePassword")
     private void updatePassword(@PathVariable Long userId, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword){
         System.out.println(userId + " " + oldPassword + " " + newPassword);
     }

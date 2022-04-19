@@ -5,7 +5,11 @@ export default function ProfileIndex(props) {
             <h1>Profile</h1>
         </header>
         <main>
-            <div>
+            <form>
+                <label for="username">Username</label>
+                <input disabled id="username" name="username" value="${props.user.username}" type="text"/>
+                <label for="email">Email</label>
+                <input disabled id="email" name="email" value="${props.user.email}" type="text"/>
                 <p>
                     ${props.user.username}
                 </p>
@@ -15,7 +19,7 @@ export default function ProfileIndex(props) {
                 <p>
                     ${props.user.email}
                 </p>
-            </div>
+            </form>
         </main>
     `;
 }

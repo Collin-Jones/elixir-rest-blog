@@ -2,7 +2,7 @@ package com.example.restblog.data;
 
 import lombok.*;
 
-import javax.management.relation.Role;
+
 import java.time.LocalDate;
 
 @Getter
@@ -11,6 +11,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString
 public class User {
+    public enum Role {USER, ADMIN}
+
     private Long id;
     private String username;
     private String email;

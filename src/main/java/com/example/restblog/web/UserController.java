@@ -14,31 +14,41 @@ public class UserController {
 
     @GetMapping
     private List<User> getAll() {
-        List<User> posts = new ArrayList<>();
-        posts.add(new User());
-        posts.add(new User());
-        posts.add(new User());
-        return posts;
+        ArrayList<User> users = new ArrayList<>();
+        users.add(new User(1L, "User1", "email address","password", null, User.Role.ADMIN));
+        users.add(new User(1L, "User2", "email address2","thePassword", null, User.Role.USER));
+        users.add(new User(1L, "User3", "email address3","passwordThe", null, User.Role.ADMIN));
+        return users;
     }
 
-    @GetMapping("{postId}")
-    private User getById(@PathVariable Long postId){
-        return new User();
+    @GetMapping("{userId}")
+    private User getById(@PathVariable Long userId){
+        return new User(userId, "User3", "email address3","passwordThe", null, User.Role.ADMIN);
+    }
+
+    @GetMapping("/username")
+    private User getByUsername(@RequestParam String userName){
+        return new User(1L, userName, "email address3","passwordThe", null, User.Role.ADMIN);
+    }
+
+    @GetMapping("/email")
+    private User getByEmail(@RequestParam String userEmail){
+        return new User(1L, "TheTaco", userEmail,"passwordThe", null, User.Role.ADMIN);
     }
 
     @PostMapping
-    private void createUser(@RequestBody Post newPost){
-        System.out.println(newPost);
+    private void createUser(@RequestBody User newUser){
+        System.out.println(newUser);
     }
-    @PutMapping("{postId}")
-    private void updateUser(@PathVariable Long postId , @RequestBody Post updatedPost){
-        updatedPost.setId(postId);
-        System.out.println(postId + " " + updatedPost);
+    @PutMapping("{userId}")
+    private void updateUser(@PathVariable Long userId , @RequestBody User updatedUser){
+        updatedUser.setId(userId);
+        System.out.println(userId + " " + updatedUser);
     }
 
-    @DeleteMapping("{postId}")
-    private void deleteUser(@PathVariable Long postId){
-        System.out.println(postId);
+    @DeleteMapping("{userId}")
+    private void deleteUser(@PathVariable Long userId){
+        System.out.println(userId);
     }
 
 }

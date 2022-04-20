@@ -21,5 +21,4 @@ public class User {
     private LocalDate createdAt;
     private Role role;
     private Collection<Post> posts;
-
 }

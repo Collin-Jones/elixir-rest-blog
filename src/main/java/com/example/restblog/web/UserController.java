@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +61,9 @@ public class UserController {
 
     @PostMapping
     private void createUser(@RequestBody User newUser){
-        System.out.println(newUser);
+        newUser.setCreatedAt(LocalDate.now());
+        newUser.setRole(User.Role.USER);
+        userRepository.save(newUser);
     }
     @PutMapping("{userId}")
     private void updateUser(@PathVariable Long userId , @RequestBody User updatedUser){

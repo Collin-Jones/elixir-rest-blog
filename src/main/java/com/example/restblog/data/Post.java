@@ -1,5 +1,6 @@
 package com.example.restblog.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "post")
+@Table(name = "posts")
 public class Post {
 
     @Id
@@ -21,6 +22,10 @@ public class Post {
     private String title;
     @Column(nullable = false)
     private String content;
-//    private User author;
-//    private Collection<Category> categories;
+
+    @ManyToOne
+    @JsonIgnoreProperties({"posts", "password"})
+    private User author;
+    @Transient
+    private Collection<Category> categories;
 }

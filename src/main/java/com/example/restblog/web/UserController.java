@@ -3,6 +3,7 @@ package com.example.restblog.web;
 import com.example.restblog.data.Category;
 import com.example.restblog.data.Post;
 import com.example.restblog.data.User;
+import com.example.restblog.data.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,7 +20,13 @@ public class UserController {
     private static final Category CAT2 = new Category(2L, "CAT 2", null);
     private static final Category CAT3 = new Category(3L, "CAT 3", null);
 
-//    private static final Post POST1 = new Post(1L, "Post 1", "Blah", null, Arrays.asList(CAT1, CAT2));
+    private UserRepository userRepository;
+
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    //    private static final Post POST1 = new Post(1L, "Post 1", "Blah", null, Arrays.asList(CAT1, CAT2));
 //    private static final Post POST2 = new Post(2L, "Post 2", "Blah", null, Arrays.asList(CAT2, CAT3));
 //    private static final Post POST3 = new Post(3L, "Post 3", "Blah", null, Arrays.asList(CAT1, CAT3));
 //    private static final Post POST4 = new Post(4L, "Post 4", "Blah", null, Arrays.asList(CAT1, CAT2));
@@ -27,18 +34,19 @@ public class UserController {
 //    private static final Post POST6 = new Post(6L, "Post 6", "Blah", null, Arrays.asList(CAT1, CAT3));
 
     @GetMapping
-//    private List<User> getAll() {
+    private List<User> getAll() {
 //        ArrayList<User> users = new ArrayList<>();
 //        users.add(new User(1L, "User1", "email address","password", null, User.Role.ADMIN, Arrays.asList(POST1, POST2)));
 //        users.add(new User(2L, "User2", "email address2","thePassword", null, User.Role.USER, Arrays.asList(POST3, POST4)));
 //        users.add(new User(3L, "User3", "email address3","passwordThe", null, User.Role.ADMIN, Arrays.asList(POST5, POST6)));
-//        return users;
-//    }
+        return userRepository.findAll();
+    }
 
-//    @GetMapping("{userId}")
-//    private User getById(@PathVariable Long userId){
+    @GetMapping("{userId}")
+    private User getById(@PathVariable Long userId){
 //        return new User(userId, "User3", "email address3","passwordThe", null, User.Role.ADMIN, Arrays.asList(POST1, POST2));
-//    }
+        return userRepository.getById(userId);
+    }
 //
 //    @GetMapping("/username")
 //    private User getByUsername(@RequestParam String userName){

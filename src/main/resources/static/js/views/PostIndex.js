@@ -13,6 +13,8 @@ export default function PostIndex(props) {
                     ${props.posts.map(post => `
                         <h3 id="title-${post.id}">${post.title}</h3>
                         <p id="content-${post.id}">${post.content}</p>
+                        <p id="author-${post.id}">${post.author.username}</p>
+                        <p id="email-${post.id}">${post.author.email}</p>
                         <button type="button" class="btn edit-btn primary mb-3" data-id="${post.id}" >Edit</button>
                         <button type="button" class="btn delete-btn primary mb-3" data-id="${post.id}">Delete</button>`)
                             .join('')}

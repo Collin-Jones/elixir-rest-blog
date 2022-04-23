@@ -1,30 +1,27 @@
 package com.example.restblog.web;
 
-import com.example.restblog.data.Category;
-import com.example.restblog.data.Post;
 import com.example.restblog.data.User;
 import com.example.restblog.data.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/api/users", headers = "Accept=application/json")
 public class UserController {
-    private static final Category CAT1 = new Category(1L, "CAT 1", null);
-    private static final Category CAT2 = new Category(2L, "CAT 2", null);
-    private static final Category CAT3 = new Category(3L, "CAT 3", null);
+
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     //    private static final Post POST1 = new Post(1L, "Post 1", "Blah", null, Arrays.asList(CAT1, CAT2));
@@ -63,6 +60,8 @@ public class UserController {
     private void createUser(@RequestBody User newUser){
         newUser.setCreatedAt(LocalDate.now());
         newUser.setRole(User.Role.USER);
+        String encodePassword = passwordEncoder.encode(newUser.getPassword());
+        newUser.setPassword(encodePassword);
         userRepository.save(newUser);
     }
     @PutMapping("{userId}")

@@ -21,7 +21,7 @@ public class UserController {
     private static final Category CAT2 = new Category(2L, "CAT 2", null);
     private static final Category CAT3 = new Category(3L, "CAT 3", null);
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;

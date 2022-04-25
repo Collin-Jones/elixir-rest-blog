@@ -42,19 +42,18 @@ public class UserController {
 
     @GetMapping("{userId}")
     private User getById(@PathVariable Long userId){
-//        return new User(userId, "User3", "email address3","passwordThe", null, User.Role.ADMIN, Arrays.asList(POST1, POST2));
         return userRepository.getById(userId);
     }
-//
-//    @GetMapping("/username")
-//    private User getByUsername(@RequestParam String userName){
-//        return new User(1L, userName, "email address3","passwordThe", null, User.Role.ADMIN, Arrays.asList(POST1, POST2));
-//    }
-//
-//    @GetMapping("/email")
-//    private User getByEmail(@RequestParam String userEmail){
-//        return new User(1L, "TheTaco", userEmail,"passwordThe", null, User.Role.ADMIN, Arrays.asList(POST1, POST2));
-//    }
+
+    @GetMapping("/username")
+    private User getByUsername(@RequestParam String userName){
+        return userRepository.findByUsername(userName);
+    }
+
+    @GetMapping("/email")
+    private User getByEmail(@RequestParam String userEmail){
+        return userRepository.findByEmail(userEmail);
+    }
 
     @PostMapping
     private void createUser(@RequestBody User newUser){

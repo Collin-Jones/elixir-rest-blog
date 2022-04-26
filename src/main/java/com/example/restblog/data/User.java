@@ -34,5 +34,6 @@ public class User {
 
     @OneToMany(mappedBy = "author")
     @JsonIgnoreProperties("author")
+    @ToString.Exclude
     private Collection<Post> posts;
 }

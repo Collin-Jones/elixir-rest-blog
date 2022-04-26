@@ -1,4 +1,5 @@
 import createView from "../createView.js";
+import {getHeaders} from "../auth.js";
 
 const POST_URI = "http://localhost:8081/api/posts"
 export default function PostIndex(props) {
@@ -62,7 +63,7 @@ function createAddPostListener() {
 
         const request = {
             method: "POST",
-            headers: {'Content-Type': 'application/json'},
+            headers: getHeaders(),
             body: JSON.stringify(newPost)
         }
         fetch(POST_URI, request)
@@ -123,9 +124,7 @@ function createDeleteEventLister() {
 
         const request = {
             method: 'DELETE',
-            headers:{
-                'Content-Type': 'application/json',
-            }
+            headers: getHeaders()
         };
         fetch(`${POST_URI}/${id}`, request).then(res => {
             console.log("Deleted Successfully: " + res.status);

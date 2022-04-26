@@ -2,7 +2,9 @@ package com.example.restblog.web;
 
 import com.example.restblog.data.Post;
 import com.example.restblog.data.PostsRepository;
+import com.example.restblog.data.User;
 import com.example.restblog.data.UserRepository;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.example.restblog.services.EmailService;
 
@@ -40,19 +42,31 @@ public class PostsController {
     }
 
     @PostMapping
-    private void createPost(@RequestBody Post newPost){
-        newPost.setAuthor(userRepository.getById(1L));
+    private void createPost(@RequestBody Post newPost,  OAuth2Authentication auth){
+        String email = auth.getName();
+        User user = userRepository.findByEmail(email);
+        newPost.setAuthor(user);
+        postRepository.save(newPost);
         System.out.println("Post created");
         emailService.prepareAndSend(newPost,"title", "Hello world");
     }
     @PutMapping("{postId}")
     private void updatePost(@PathVariable Long postId , @RequestBody Post updatedPost){
         updatedPost.setId(postId);
-        System.out.println(postId + " " + updatedPost);
+        Post oldpost = postRepository.getById(postId);
+        if (updatedPost.getTitle() != null){
+            oldpost.setTitle(updatedPost.getTitle());
+        }
+        if (updatedPost.getContent() != null){
+            oldpost.setContent(updatedPost.getContent());
+        }
+        postRepository.save(oldpost);
+        System.out.println(postId + " " + oldpost);
     }
 
     @DeleteMapping("{postId}")
     private void deletePost(@PathVariable Long postId){
+        postRepository.deleteById(postId);
         System.out.println(postId);
     }
 

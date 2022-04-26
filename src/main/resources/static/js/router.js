@@ -9,6 +9,7 @@ import Register from "./views/Register.js"
 import {RegisterEvent} from "./views/Register.js";
 import {PostsEvent} from "./views/PostIndex.js";
 import ProfileIndex from "./views/User.js";
+import {Logout} from "./views/Logout.js";
 
 
 /**
@@ -30,6 +31,13 @@ export default function router(URI) {
             uri: '/login',
             title: "Login",
             viewEvent: LoginEvent
+        },
+        '/logout':{
+            returnView: Home,
+            state:{},
+            uri:'/logout',
+            title: "Logout",
+            viewEvent: Logout
         },
         '/register': {
             returnView: Register,

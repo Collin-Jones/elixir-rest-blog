@@ -14,9 +14,6 @@ export default function ProfileIndex(props) {
                     ${props.user.username}
                 </p>
                 <p>
-                    ${props.user.password}
-                </p>
-                <p>
                     ${props.user.email}
                 </p>
             </form>
